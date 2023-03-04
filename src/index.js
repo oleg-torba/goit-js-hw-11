@@ -29,7 +29,7 @@ async function resolveImage(searchQuery){
       try {
         const response = await axios.get(BASE_URL, {params})
         const res = await response.data.hits;
-        response.searchQuery = searchQuery
+        // response.searchQuery = input.value
         
         
         return res

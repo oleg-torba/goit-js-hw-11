@@ -1,0 +1,16 @@
+.gallery{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.photo-card{
+   width: 250px;
+}
+
+img{
+    display: block;
+    width: 150px;
+height: 150px;
+}
