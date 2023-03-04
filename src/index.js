@@ -10,37 +10,6 @@ let searchQuery = ''
 form.addEventListener('submit', image);
 
 
-// class Gallery{
-//     #searchQuery
-//     constructor(){
-//         this.searchQuery = ''
-//     }
-   
-
-//     
-
-//     async getImages(searchQuery = this.#searchQuery) {
-//         this.searchQuery = searchQuery;
-    
-//         if(this.#searchQuery !== '') {
-//           const params = {
-//             key: `${apiKey}`,
-//             q: `${searchQuery}`,
-//             image_type: 'photo',
-//             orientation: 'horizontal',
-           
-//           }
-    
-      
-      
-        
-        
-//       }
-//  }}
-
-// const apiService = new Gallery
-// async function getImage(value){
-
 async function resolveImage(searchQuery){
     apiKey = "34025093-cc2dd49ea388fe86622ccaf7b";
     BASE_URL = "https://pixabay.com/api/"
@@ -106,37 +75,4 @@ const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,down
 return markup
 }
 
-// getImage()
-// // let inputValue = '';
-// // const key = `34025093-cc2dd49ea388fe86622ccaf7b`;
 
-
-// async function getImage() {
-//   const options = `key = ${key},q=${inputValue}`
-  
-
-//   const response = await axios.get(`${BASE_URL}[, ${config}]`)
-//   const res = await response.json();
-//   return res
-//   console.log(res)
-// }
-
-
-// // axios.get(BASE_URL).then(response => {
-// //   if (response.ok) {
-// //     return response.json();
-// //   }
-// // });
-
-// function searchImg(e){
-//     e.preventDefault()
-//     const inputValue = e.target.value
-//   getImage()
-// }
-
-// // function uuu(images){
-// //    const img = Object.values(images)
-
-// // }
-
-// // uuu()
