@@ -2,13 +2,18 @@
 import { Notify } from 'notiflix';
 import axios from 'axios';
 const gallery = document.querySelector('.gallery')
-// import galleryCard from './templates'
+const input = document.querySelector('input')
 const form = document.querySelector('.search-form');
 let searchQuery = ''
 
 
 form.addEventListener('submit', image);
 
+function error(res){
+    if(res.length === 0){
+       
+    }
+}
 
 async function resolveImage(searchQuery){
    const apiKey = "34025093-cc2dd49ea388fe86622ccaf7b";
@@ -21,19 +26,29 @@ async function resolveImage(searchQuery){
         safesearch: 'true'
        
       }
-    try {
+      try {
         const response = await axios.get(BASE_URL, {params})
         const res = await response.data.hits;
+        response.searchQuery = searchQuery
+        
+        
         return res
-     } catch (error) {
-        throw new Error("Ошибка")
-     }
+      } catch (error) {
+        error =  Notify.info("Sorry, there are no images matching your search query. Please try again.");
+       return error
+      }
+        
+    
 }
+
+
 
  function image(e){
 e.preventDefault();
-searchQuery = e.currentTarget.searchQuery.value;
+searchQuery = input.value;
 console.log(searchQuery)
+
+clearMarkup()
   resolveImage(searchQuery)
   .then(onSuccess)
   
@@ -42,9 +57,11 @@ console.log(searchQuery)
   
  function onSuccess(images){
     gallery.insertAdjacentHTML('beforeend', markupImage(images));
-   
+  
     
  }
+
+
 function markupImage(images){
 
 const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,downloads})=>{
@@ -76,3 +93,6 @@ return markup
 }
 
 
+function clearMarkup(){
+    gallery.innerHTML = ''
+}
