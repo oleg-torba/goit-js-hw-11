@@ -11,8 +11,8 @@ form.addEventListener('submit', image);
 
 
 async function resolveImage(searchQuery){
-    apiKey = "34025093-cc2dd49ea388fe86622ccaf7b";
-    BASE_URL = "https://pixabay.com/api/"
+   const apiKey = "34025093-cc2dd49ea388fe86622ccaf7b";
+   const BASE_URL = "https://pixabay.com/api/"
     const params = {
         key: `${apiKey}`,
         q: `${searchQuery}`,
