@@ -57,6 +57,7 @@ resetIncrementPage(){
 const newApiService = new NewApiService()
 
 function onSearch(e){
+clearMarkup()
 e.preventDefault();
 newApiService.query = e.currentTarget.elements.searchQuery.value;
 newApiService.resetIncrementPage()
