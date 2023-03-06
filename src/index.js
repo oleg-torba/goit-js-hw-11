@@ -1,10 +1,14 @@
 
 import { Notify } from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 import axios from 'axios';
 const gallery = document.querySelector('.gallery')
 const input = document.querySelector('input')
 const form = document.querySelector('.search-form');
 let searchQuery = ''
+
+
 
 
 form.addEventListener('submit', image);
@@ -29,7 +33,7 @@ async function resolveImage(searchQuery){
       try {
         const response = await axios.get(BASE_URL, {params})
         const res = await response.data.hits;
-        // response.searchQuery = input.value
+      
         
         
         return res
@@ -58,7 +62,8 @@ clearMarkup()
  function onSuccess(images){
     gallery.insertAdjacentHTML('beforeend', markupImage(images));
   
-    
+    const lightbox = new SimpleLightbox('.gallery__item', {showCounter: false});
+    lightbox.refresh()
  }
 
 
@@ -68,31 +73,44 @@ const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,down
     return `
   
     <div class="photo-card">
-    <a class="gallery__item" href="${largeImageURL}">
-    <img src="${webformatURL}" alt="image" loading="lazy" />
+   <a class="gallery__item" href="${largeImageURL}">
+    <img src="${webformatURL}" alt="image" loading="lazy" /></a>
     <div class="info">
       <p class="info-item">
-        <b>Likes: ${likes}</b>
+        <b>${likes}</b>
       </p>
       <p class="info-item">
-        <b>Views: ${views}</b>
+        <b>${views}</b>
       </p>
       <p class="info-item">
-        <b>Comments:${comments}</b>
+        <b>${comments}</b>
       </p>
       <p class="info-item">
-        <b>Downloads: ${downloads}</b>
+        <b>${downloads}</b>
       </p>
     </div>
   </div>
     `
 
    
-})
+}).join('')
 return markup
-}
 
+const lightbox = new SimpleLightbox(".gallery a", {
+    captionPosition: "top",
+    captionsData: "alt",
+    captionDelay: 250,
+    enableKeyboard: true,
+    close: false,
+    fadeSpeed: 300,
+    overlayOpacity: 0.5,
+
+
+})
+}
 
 function clearMarkup(){
     gallery.innerHTML = ''
 }
+
+

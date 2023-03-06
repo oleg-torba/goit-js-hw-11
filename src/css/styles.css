@@ -1,16 +1,39 @@
-.gallery{
+/* .gallery{
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+   display: block;
 
-}
-
-.photo-card{
-   width: 250px;
 }
 
 img{
     display: block;
-    width: 150px;
+}
+.photo-card{
+    display: block;
+   width: 200px;
+   height: 150px;
+}
+
+.info{
+    display: flex;
+}
+/* img{
+    display: block;
+    width: 250px;
 height: 150px;
+} */ 
+
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img{
+    display: block;
+    width: 200px;
+    height: 200px;
+}
+
+.photo-card{
+    margin-right: 15px;
+    
 }
