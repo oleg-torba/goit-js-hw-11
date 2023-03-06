@@ -23,7 +23,7 @@ console.log(this)
         key: `${apiKey}`,
         q: `${this.searchQuery}`,
         page: `${this.page}`,
-        per_page: '5', 
+        per_page: '40', 
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true'
@@ -95,16 +95,16 @@ const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,down
     <img src="${webformatURL}" alt="image" loading="lazy" /></a>
     <div class="info">
       <p class="info-item">
-        <b>${likes}</b>
+        <b>&#10084;${likes}</b>
       </p>
       <p class="info-item">
-        <b>${views}</b>
+        <b>&#128065;${views}</b>
       </p>
       <p class="info-item">
-        <b>${comments}</b>
+        <b>&#128386;${comments}</b>
       </p>
       <p class="info-item">
-        <b>${downloads}</b>
+        <b>&infin;${downloads}</b>
       </p>
     </div>
   </div>
