@@ -18,6 +18,7 @@ img{
 
 .gallery{
     display: flex;
+  
     flex-wrap: wrap;
     margin-top: 20px;
     justify-content: center;
@@ -26,7 +27,7 @@ img{
 
 img{
     display: block;
-    width: 300px;
+    width: 250px;
     height: 200px;
 }
 
@@ -36,7 +37,7 @@ img{
 }
 
 .load-more{
-  display: none;
+  display: block;
     background-color: #02be6e;
     border-radius: 50px;
     cursor: pointer;
@@ -45,6 +46,7 @@ img{
     color: white;
     margin: 0 auto;
     border: 1px solid transparent;
+    
 }
 
 .search-btn{
@@ -65,11 +67,7 @@ input{
     border: 1px solid;
     margin-right: 10px;
 }
-img{
-    display: block;
-    width: 250px;
-height: 150px;
-} 
+
 
 b{
     font-size: 12px;
@@ -99,3 +97,6 @@ b:last-child{
     margin-right: 3px;
 }
 
+.is-hidden{
+    display: none;
+}

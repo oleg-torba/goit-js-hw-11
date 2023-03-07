@@ -57,21 +57,29 @@ resetIncrementPage(){
 
 const newApiService = new NewApiService()
 
+loadMoreBtn.classList.add('is-hidden')
+
 function onSearch(e){
+   
 clearMarkup()
 e.preventDefault();
 newApiService.query = e.currentTarget.elements.searchQuery.value;
+if(newApiService.query === ""){
+    return Notify.info("Sorry, there are no images matching your search query. Please try again.")
+}
+
 newApiService.resetIncrementPage()
 newApiService.fetchArticles()
 .then(onSuccess)
+
 }
 
 function onLoadMore(){
-   
+
     newApiService.fetchArticles()
    
   .then(onSuccess) 
-  .then(showLoadMoreBtn)
+ 
     
 }
   
@@ -81,9 +89,8 @@ function onLoadMore(){
   
     const lightbox = new SimpleLightbox('.gallery__item', {showCounter: false});
     lightbox.refresh()
-  showLoadMoreBtn()
 
-   
+   loadMoreBtn.classList.remove('is-hidden')
  }
 
 
@@ -130,11 +137,7 @@ return markup
 
 function clearMarkup(){
     gallery.innerHTML = ''
+    loadMoreBtn.classList.add('is-hidden')
 }
 
 
-function showLoadMoreBtn(){
-    if(markupImage){
-        loadMoreBtn.style.display = 'block'
-    }
-}
