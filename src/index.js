@@ -97,16 +97,16 @@ const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,down
     <img src="${webformatURL}" alt="image" loading="lazy" /></a>
     <div class="info">
       <p class="info-item">
-        <b>&#10084;${likes}</b>
+        <b><span class="icon">&#10084;</span>${likes}</b>
       </p>
       <p class="info-item">
-        <b>&#128065;${views}</b>
+        <b><span class="icon">&#128065;</span>${views}</b>
       </p>
       <p class="info-item">
-        <b>&#128386;${comments}</b>
+        <b><span class="icon">&#128386;</span>${comments}</b>
       </p>
       <p class="info-item">
-        <b>&infin;${downloads}</b>
+        <b><span class="icon">&infin;</span>${downloads}</b>
       </p>
     </div>
   </div>

@@ -20,6 +20,8 @@ img{
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 img{
@@ -41,7 +43,6 @@ img{
     width: 240px;
     height: 35px;
     color: white;
-    /* display: block; */
     margin: 0 auto;
     border: 1px solid transparent;
 }
@@ -72,11 +73,20 @@ height: 150px;
 
 b{
     font-size: 12px;
-    margin-right: 20px;
+    margin-right: 10px;
+    color: cornflowerblue;
+  
+}
+
+b:last-child{
+    margin-right: 0;
 }
 
 .info{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
 }
 
 .search-form{
@@ -84,3 +94,8 @@ b{
  justify-content: center;
     
 }
+
+.icon{
+    margin-right: 3px;
+}
+
