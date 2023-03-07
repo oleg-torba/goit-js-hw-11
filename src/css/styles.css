@@ -19,6 +19,7 @@ img{
 .gallery{
     display: flex;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
 
 img{
@@ -33,10 +34,35 @@ img{
 }
 
 .load-more{
-    width: 300px;
-    height: 30px;
-    display: block;
+  display: none;
+    background-color: #02be6e;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 240px;
+    height: 35px;
+    color: white;
+    /* display: block; */
     margin: 0 auto;
+    border: 1px solid transparent;
+}
+
+.search-btn{
+    background-color: #02be6e;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 120px;
+    height: 35px;
+    padding: 5px 25px;
+   color: white;
+   border: 1px solid transparent;
+}
+
+input{
+    width: 240px;
+    height: 33px;
+    padding: 0 10px;
+    border: 1px solid;
+    margin-right: 10px;
 }
 img{
     display: block;
@@ -51,4 +77,10 @@ b{
 
 .info{
     display: flex;
+}
+
+.search-form{
+ display: flex;
+ justify-content: center;
+    
 }

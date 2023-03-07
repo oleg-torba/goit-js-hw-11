@@ -5,7 +5,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import axios from 'axios';
 const gallery = document.querySelector('.gallery')
 const form = document.querySelector('.search-form');
-const loadMoreBtn = document.querySelector('.load-more').addEventListener("click", onLoadMore)
+const loadMoreBtn = document.querySelector('.load-more')
+loadMoreBtn.addEventListener("click", onLoadMore)
 form.addEventListener('submit', onSearch);
 
 
@@ -66,21 +67,22 @@ newApiService.fetchArticles()
 }
 
 function onLoadMore(){
+   
     newApiService.fetchArticles()
-    .then(onSuccess);
+   
+  .then(onSuccess) 
+  .then(showLoadMoreBtn)
     
 }
-
-
- 
   
  function onSuccess(images){
     gallery.insertAdjacentHTML('beforeend', markupImage(images));
+
   
     const lightbox = new SimpleLightbox('.gallery__item', {showCounter: false});
     lightbox.refresh()
-  
-    
+  showLoadMoreBtn()
+
    
  }
 
@@ -112,11 +114,27 @@ const markup = images.map(({largeImageURL,webformatURL,likes,views,comments,down
 
    
 }).join('')
+
+
 return markup
 }
+
+
+
+
+// function loadMoreMarkup(){
+//   const buttoMarkup =  `<button type="button" class="load-more">Load more</button>`
+//   return buttoMarkup
+   
+// }
 
 function clearMarkup(){
     gallery.innerHTML = ''
 }
 
 
+function showLoadMoreBtn(){
+    if(markupImage){
+        loadMoreBtn.style.display = 'block'
+    }
+}
