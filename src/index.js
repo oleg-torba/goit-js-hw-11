@@ -33,6 +33,7 @@ console.log(this)
       try {
         const response = await axios.get(BASE_URL, {params})
         const res = await response.data.hits;
+      
       this.incrementPage()
       return res
       } catch (error) {
@@ -91,6 +92,9 @@ function onLoadMore(){
     lightbox.refresh()
 
    loadMoreBtn.classList.remove('is-hidden')
+   if(newApiService.fetchArticles().res.length<40){
+    loadMoreBtn.classList.add('is-hidden')
+   }
  }
 
 
