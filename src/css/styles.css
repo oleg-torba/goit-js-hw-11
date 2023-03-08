@@ -68,6 +68,8 @@ input{
     border: 1px solid;
     margin-right: 10px;
     outline: none;
+    background-color: ivory;
+    border-color: #02be6e;
 }
 
 

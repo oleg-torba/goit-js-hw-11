@@ -26,22 +26,14 @@ class NewApiService {
       orientation: 'horizontal',
       safesearch: 'true',
     };
-    try {
-      const response = await axios.get(BASE_URL, { params });
-      const res = await response.data.hits;
-    
-      this.incrementPage();
-      
-       return res;
-    } catch (error) {
-      error = Notify.info(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    
-      return error;
-    }
-  }
 
+    const response = await axios.get(BASE_URL, { params });
+    const res = await response.data.hits;
+
+    this.incrementPage();
+
+    return res;
+  }
 
   incrementPage() {
     this.page += 1;
@@ -62,21 +54,32 @@ const newApiService = new NewApiService();
 
 loadMoreBtn.classList.add('is-hidden');
 
-function onSearch(e) {
+async function onSearch(e) {
   clearMarkup();
   e.preventDefault();
   newApiService.query = e.currentTarget.elements.searchQuery.value;
+  try {
+    const fetch = await newApiService.fetchArticles().then(onSuccess);
+  } catch (error) {
+    error = Notify.info(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
 
+    return error;
+  }
   newApiService.resetIncrementPage();
-  newApiService.fetchArticles()
-  .then(onSuccess);
 }
 
-function onLoadMore() {
-  newApiService
-    .fetchArticles()
+async function onLoadMore() {
+  try {
+    const fetch = await newApiService.fetchArticles().then(onSuccess);
+  } catch (error) {
+    error = Notify.info(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
 
-    .then(onSuccess);
+    return error;
+  }
 }
 
 function onSuccess(images) {
@@ -84,13 +87,13 @@ function onSuccess(images) {
 
   const lightbox = new SimpleLightbox('.gallery__item', { showCounter: false });
   lightbox.refresh();
+
   loadMoreBtn.classList.remove('is-hidden');
-  if(images.length < 40){
-    loadMoreBtn.classList.add('is-hidden')
+
+  // Перевірка на кількість зображень
+  if (images.length < 40) {
+    loadMoreBtn.classList.add('is-hidden');
   }
-
-   
-
 }
 
 function markupImage(images) {
@@ -125,15 +128,7 @@ function markupImage(images) {
   return markup;
 }
 
-// function loadMoreMarkup(){
-//   const buttoMarkup =  `<button type="button" class="load-more">Load more</button>`
-//   return buttoMarkup
-
-// }
-
 function clearMarkup() {
   gallery.innerHTML = '';
   loadMoreBtn.classList.add('is-hidden');
-  
 }
-
