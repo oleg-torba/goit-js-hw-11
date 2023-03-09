@@ -2,9 +2,11 @@ import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import axios from 'axios';
+
 const gallery = document.querySelector('.gallery');
 const form = document.querySelector('.search-form');
 const loadMoreBtn = document.querySelector('.load-more');
+
 loadMoreBtn.addEventListener('click', onLoadMore);
 form.addEventListener('submit', onSearch);
 
@@ -59,7 +61,9 @@ async function onSearch(e) {
   e.preventDefault();
   newApiService.query = e.currentTarget.elements.searchQuery.value;
   try {
-    const fetch = await newApiService.fetchArticles().then(onSuccess);
+    const fetch = await newApiService.fetchArticles().then(onSuccess)
+
+   
   } catch (error) {
     error = Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
@@ -67,8 +71,11 @@ async function onSearch(e) {
 
     return error;
   }
+
   newApiService.resetIncrementPage();
 }
+
+
 
 async function onLoadMore() {
   try {
@@ -104,7 +111,7 @@ function markupImage(images) {
   
     <div class="photo-card">
    <a class="gallery__item" href="${largeImageURL}">
-    <img src="${webformatURL}" alt="image" loading="lazy" /></a>
+    <img src="${webformatURL}" alt="image" loading="lazy" />
     <div class="info">
       <p class="info-item">
         <b><span class="icon">&#10084;</span>${likes}</b>
@@ -113,13 +120,14 @@ function markupImage(images) {
         <b><span class="icon">&#128065;</span>${views}</b>
       </p>
       <p class="info-item">
-        <b><span class="icon">&#128386;</span>${comments}</b>
+        <b><span class="icon">	
+        &#128488;</span>${comments}</b>
       </p>
       <p class="info-item">
-        <b><span class="icon">&infin;</span>${downloads}</b>
+        <b><span class="icon">&#8595;</span>${downloads}</b>
       </p>
     </div>
-  </div>
+  </div></a>
     `;
       }
     )
