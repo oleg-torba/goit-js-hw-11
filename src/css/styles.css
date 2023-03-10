@@ -47,10 +47,11 @@ img{
 }
 
 .search-btn{
+ 
     background-color: #02be6e;
     border-radius: 10px;
     cursor: pointer;
-    width: 10%;
+    max-width: 30%;
     height: 35px;
     padding: 5px 25px;
    color: white;
@@ -58,7 +59,7 @@ img{
 }
 
 input{
-    width: 50%;
+   width: 50%;
     height: 33px;
     padding: 0 10px;
     border: 1px solid #02be6e;

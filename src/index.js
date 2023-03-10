@@ -33,6 +33,7 @@ class NewApiService {
 
     const response = await axios.get(BASE_URL, { params });
     const res = await response.data.hits;
+    
 
     this.incrementPage();
 
