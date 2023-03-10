@@ -1,22 +1,15 @@
 body{
-    background-color: lightcyan;
+    background-color: darkslategrey;
+    margin: 0;
 }
-.search-form{
-    display: flex;
-    justify-content: center;
-    padding: 20px 0px;
-    background-color: lightskyblue
-
- }
 
 .gallery{
     display: flex;
   
     flex-wrap: wrap;
-    
+    margin-top: 20px;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
 }
 .gallery__item{
     display: block;
@@ -42,7 +35,7 @@ img{
 .load-more{
   display: block;
     background-color: #02be6e;
-    border-radius: 50px;
+    border-radius: 10px;
     cursor: pointer;
     width: 240px;
     height: 35px;
@@ -55,9 +48,9 @@ img{
 
 .search-btn{
     background-color: #02be6e;
-    border-radius: 50px;
+    border-radius: 10px;
     cursor: pointer;
-    width: 120px;
+    width: 10%;
     height: 35px;
     padding: 5px 25px;
    color: white;
@@ -65,15 +58,15 @@ img{
 }
 
 input{
-    width: 240px;
+    width: 50%;
     height: 33px;
     padding: 0 10px;
-    border: 1px solid;
+    border: 1px solid #02be6e;
+
     margin-right: 10px;
     outline: none;
-    border-radius: 4px;
   
-    border-color: #02be6e;
+    border-radius: 6px;
 }
 
 
@@ -93,8 +86,8 @@ b:last-child{
     align-items: center;
     justify-content: space-between;
     padding: 3px;
-    background-color: #fff;
     border: 1px solid #EEEEEE;
+    background-color: #fff;
     margin-bottom: 20px;
     padding: 10px 5px;
 }
@@ -105,6 +98,13 @@ b:last-child{
    
 }
 
+.search-form{
+ display: flex;
+ justify-content: center;
+ padding: 20px 0;
+ 
+    
+}
 
 .icon{
     margin-right: 3px;
@@ -116,4 +116,3 @@ b:last-child{
 .is-hidden{
     display: none;
 }
-

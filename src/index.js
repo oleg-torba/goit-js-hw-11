@@ -9,6 +9,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 
 loadMoreBtn.addEventListener('click', onLoadMore);
+loadMoreBtn.classList.add('is-hidden');
 form.addEventListener('submit', onSearch);
 
 class NewApiService {
@@ -55,11 +56,13 @@ class NewApiService {
 
 const newApiService = new NewApiService();
 
-loadMoreBtn.classList.add('is-hidden');
+
 
 async function onSearch(e) {
+  clearMarkup()
   e.preventDefault();
   newApiService.query = e.currentTarget.elements.searchQuery.value;
+ 
   if (newApiService.searchQuery === '') {
     return clearMarkup();
   }
