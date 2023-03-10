@@ -6,7 +6,7 @@ import axios from 'axios';
 const gallery = document.querySelector('.gallery');
 const form = document.querySelector('.search-form');
 const loadMoreBtn = document.querySelector('.load-more');
-const searchBtn = document.querySelector('.search-btn');
+
 
 loadMoreBtn.addEventListener('click', onLoadMore);
 form.addEventListener('submit', onSearch);
