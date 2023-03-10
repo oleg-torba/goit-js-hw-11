@@ -64,6 +64,7 @@ async function onSearch(e) {
   newApiService.query = e.currentTarget.elements.searchQuery.value;
  
   if (newApiService.searchQuery === '') {
+    Notify.failure('Sorry, there are no images matching your search query. Please try again.')
     return clearMarkup();
   }
 
