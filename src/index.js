@@ -6,6 +6,7 @@ import axios from 'axios';
 const gallery = document.querySelector('.gallery');
 const form = document.querySelector('.search-form');
 const loadMoreBtn = document.querySelector('.load-more');
+const searchBtn = document.querySelector('.search-btn');
 
 loadMoreBtn.addEventListener('click', onLoadMore);
 form.addEventListener('submit', onSearch);
@@ -57,36 +58,19 @@ const newApiService = new NewApiService();
 loadMoreBtn.classList.add('is-hidden');
 
 async function onSearch(e) {
-  clearMarkup();
   e.preventDefault();
   newApiService.query = e.currentTarget.elements.searchQuery.value;
-  try {
-    const fetch = await newApiService.fetchArticles().then(onSuccess)
-
-   
-  } catch (error) {
-    error = Notify.info(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-
-    return error;
+  if (newApiService.searchQuery === '') {
+    return clearMarkup();
   }
+
+ await sendRequest()
 
   newApiService.resetIncrementPage();
 }
 
-
-
 async function onLoadMore() {
-  try {
-    const fetch = await newApiService.fetchArticles().then(onSuccess);
-  } catch (error) {
-    error = Notify.info(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-
-    return error;
-  }
+  await sendRequest()
 }
 
 function onSuccess(images) {
@@ -139,4 +123,16 @@ function markupImage(images) {
 function clearMarkup() {
   gallery.innerHTML = '';
   loadMoreBtn.classList.add('is-hidden');
+}
+
+async function sendRequest(){
+  try {
+    const fetch = await newApiService.fetchArticles().then(onSuccess);
+  } catch (error) {
+    error = Notify.info(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+
+    return error;
+  }
 }
