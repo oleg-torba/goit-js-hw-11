@@ -34,12 +34,12 @@ class NewApiService {
 
     const request = await axios.get(BASE_URL, { params });
     const response = await request.data;
-    this.incrementPage()
+
     return response;
   }
 
   incrementPage() {
-    this.page +1;
+    this.page ++;
     console.log(this.page)
   }
   resetIncrementPage() {
@@ -59,6 +59,7 @@ const newApiService = new NewApiService();
 async function onSearch(e) {
   clearMarkup();
   e.preventDefault();
+ 
   newApiService.query = e.currentTarget.elements.searchQuery.value.trim();
   if (newApiService.searchQuery === '') {
     Notify.failure(
@@ -66,23 +67,22 @@ async function onSearch(e) {
     );
     return clearMarkup();
   }
+  newApiService.resetIncrementPage();
   await onSearchRequest()
   
 
-  newApiService.resetIncrementPage();
+ 
 }
 
 async function onLoadMore() {
   await onLoadMoreRequest()
-
+  
 }
 
 function onSuccess(images) {
   gallery.insertAdjacentHTML('beforeend', markupImage(images));
-
-
   lightbox.refresh();
-
+  
   loadMoreBtn.classList.remove('is-hidden');
   if (images.length < 40) {
     loadMoreBtn.classList.add('is-hidden');
@@ -128,13 +128,19 @@ function clearMarkup() {
 }
 
 async function onSearchRequest(){
-  
+  newApiService.incrementPage()
   try {
     const fetch =  await newApiService.fetchArticles();
      const totalHits = await fetch.totalHits;
      onSuccess(fetch.hits)
+     
      if(totalHits){
        Notify.success(`Hooray! We found ${totalHits} images.`)
+     }
+     else if(totalHits === 0){
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
      }
      console.log(fetch.totalHits)
      
@@ -144,18 +150,19 @@ async function onSearchRequest(){
 }
 
 async function onLoadMoreRequest(){
+  newApiService.incrementPage()
   try {
-    const fetch = await newApiService.fetchArticles()
-    const pageData = await fetch.totalHits;
-    const numberOfPages = Math.ceil(pageData / 40);
-      if (numberOfPages < newApiService.page) {
+
+  const fetch =  await newApiService.fetchArticles();
+  const totalHits = await fetch.totalHits;
+  const numberOfPages = Math.ceil(totalHits / 40);
+      if (numberOfPages <= newApiService.page) {
         Notify.warning(
           "We're sorry, but you've reached the end of search results."
         );
         loadMoreBtn.classList.add('is-hidden')
       }
-    onSuccess(fetch.hits);
-   
+      onSuccess(fetch.hits)
   } catch (error) {
     console.log(error);
   }
