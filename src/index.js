@@ -11,6 +11,8 @@ loadMoreBtn.addEventListener('click', onLoadMore);
 loadMoreBtn.classList.add('is-hidden');
 form.addEventListener('submit', onSearch);
 
+const lightbox = new SimpleLightbox('.gallery__item', { showCounter: false });
+
 class NewApiService {
   constructor() {
     this.searchQuery = '';
@@ -32,12 +34,13 @@ class NewApiService {
 
     const request = await axios.get(BASE_URL, { params });
     const response = await request.data;
-    this.incrementPage();
+    this.incrementPage()
     return response;
   }
 
   incrementPage() {
-    this.page += 1;
+    this.page +1;
+    console.log(this.page)
   }
   resetIncrementPage() {
     this.page = 1;
@@ -63,40 +66,21 @@ async function onSearch(e) {
     );
     return clearMarkup();
   }
- 
-  try {
-    await newApiService.fetchArticles().then(data => {
-      Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      onSuccess(data.hits);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  await onSearchRequest()
+  
 
   newApiService.resetIncrementPage();
 }
 
 async function onLoadMore() {
-  try {
-    await newApiService.fetchArticles().then(data => {
-      const pages = Math.ceil(data.totalHits / 40);
-      if (pages < newApiService.page) {
-        Notify.warning(
-          "We're sorry, but you've reached the end of search results."
-        );
-        loadMoreBtn.classList.add('is-hidden')
-      }
-      onSuccess(data.hits);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  await onLoadMoreRequest()
+
 }
 
 function onSuccess(images) {
   gallery.insertAdjacentHTML('beforeend', markupImage(images));
 
-  const lightbox = new SimpleLightbox('.gallery__item', { showCounter: false });
+
   lightbox.refresh();
 
   loadMoreBtn.classList.remove('is-hidden');
@@ -141,4 +125,38 @@ function markupImage(images) {
 function clearMarkup() {
   gallery.innerHTML = '';
   loadMoreBtn.classList.add('is-hidden');
+}
+
+async function onSearchRequest(){
+  
+  try {
+    const fetch =  await newApiService.fetchArticles();
+     const totalHits = await fetch.totalHits;
+     onSuccess(fetch.hits)
+     if(totalHits){
+       Notify.success(`Hooray! We found ${totalHits} images.`)
+     }
+     console.log(fetch.totalHits)
+     
+   } catch (error) {
+     console.log(error);
+   }
+}
+
+async function onLoadMoreRequest(){
+  try {
+    const fetch = await newApiService.fetchArticles()
+    const pageData = await fetch.totalHits;
+    const numberOfPages = Math.ceil(pageData / 40);
+      if (numberOfPages < newApiService.page) {
+        Notify.warning(
+          "We're sorry, but you've reached the end of search results."
+        );
+        loadMoreBtn.classList.add('is-hidden')
+      }
+    onSuccess(fetch.hits);
+   
+  } catch (error) {
+    console.log(error);
+  }
 }
