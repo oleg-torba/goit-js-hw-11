@@ -39,8 +39,8 @@ class NewApiService {
   }
 
   incrementPage() {
-    this.page ++;
-    console.log(this.page)
+    this.page += 1;
+    console.log(this.page);
   }
   resetIncrementPage() {
     this.page = 1;
@@ -59,7 +59,7 @@ const newApiService = new NewApiService();
 async function onSearch(e) {
   clearMarkup();
   e.preventDefault();
- 
+
   newApiService.query = e.currentTarget.elements.searchQuery.value.trim();
   if (newApiService.searchQuery === '') {
     Notify.failure(
@@ -68,21 +68,19 @@ async function onSearch(e) {
     return clearMarkup();
   }
   newApiService.resetIncrementPage();
-  await onSearchRequest()
-  
-
- 
+  const searchRequest = await onSearchRequest();
+  return searchRequest;
 }
 
 async function onLoadMore() {
-  await onLoadMoreRequest()
-  
+  const loadMoreRequest = await onLoadMoreRequest();
+  return loadMoreRequest;
 }
 
 function onSuccess(images) {
   gallery.insertAdjacentHTML('beforeend', markupImage(images));
   lightbox.refresh();
-  
+
   loadMoreBtn.classList.remove('is-hidden');
   if (images.length < 40) {
     loadMoreBtn.classList.add('is-hidden');
@@ -122,48 +120,44 @@ function markupImage(images) {
   return markup;
 }
 
-function clearMarkup() {
-  gallery.innerHTML = '';
-  loadMoreBtn.classList.add('is-hidden');
-}
-
-async function onSearchRequest(){
-  newApiService.incrementPage()
+async function onSearchRequest() {
   try {
-    const fetch =  await newApiService.fetchArticles();
-     const totalHits = await fetch.totalHits;
-     onSuccess(fetch.hits)
-     
-     if(totalHits){
-       Notify.success(`Hooray! We found ${totalHits} images.`)
-     }
-     else if(totalHits === 0){
+    const fetch = await newApiService.fetchArticles();
+    const totalHits = await fetch.totalHits;
+    onSuccess(fetch.hits);
+    newApiService.incrementPage();
+
+    if (totalHits) {
+      Notify.success(`Hooray! We found ${totalHits} images.`);
+    } else if (totalHits === 0) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-     }
-     console.log(fetch.totalHits)
-     
-   } catch (error) {
-     console.log(error);
-   }
-}
-
-async function onLoadMoreRequest(){
-  newApiService.incrementPage()
-  try {
-
-  const fetch =  await newApiService.fetchArticles();
-  const totalHits = await fetch.totalHits;
-  const numberOfPages = Math.ceil(totalHits / 40);
-      if (numberOfPages <= newApiService.page) {
-        Notify.warning(
-          "We're sorry, but you've reached the end of search results."
-        );
-        loadMoreBtn.classList.add('is-hidden')
-      }
-      onSuccess(fetch.hits)
+    }
   } catch (error) {
     console.log(error);
   }
+}
+
+async function onLoadMoreRequest() {
+  newApiService.incrementPage();
+  try {
+    const fetch = await newApiService.fetchArticles();
+    const totalHits = await fetch.totalHits;
+    const numberOfPages = Math.ceil(totalHits / 40);
+    if (numberOfPages < newApiService.page) {
+      Notify.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
+      loadMoreBtn.classList.add('is-hidden');
+    }
+    onSuccess(fetch.hits);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function clearMarkup() {
+  gallery.innerHTML = '';
+  loadMoreBtn.classList.add('is-hidden');
 }
