@@ -68,13 +68,13 @@ async function onSearch(e) {
     return clearMarkup();
   }
   newApiService.resetIncrementPage();
-  const searchRequest = await onSearchRequest();
-  return searchRequest;
+await onSearchRequest();
+
 }
 
 async function onLoadMore() {
-  const loadMoreRequest = await onLoadMoreRequest();
-  return loadMoreRequest;
+await onLoadMoreRequest();
+
 }
 
 function onSuccess(images) {
