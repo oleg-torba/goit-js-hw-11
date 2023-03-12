@@ -7,7 +7,6 @@ const gallery = document.querySelector('.gallery');
 const form = document.querySelector('.search-form');
 const loadMoreBtn = document.querySelector('.load-more');
 
-
 loadMoreBtn.addEventListener('click', onLoadMore);
 loadMoreBtn.classList.add('is-hidden');
 form.addEventListener('submit', onSearch);
@@ -31,13 +30,10 @@ class NewApiService {
       safesearch: 'true',
     };
 
-    const response = await axios.get(BASE_URL, { params });
-    const res = await response.data.hits;
-    
-
+    const request = await axios.get(BASE_URL, { params });
+    const response = await request.data;
     this.incrementPage();
-
-    return res;
+    return response;
   }
 
   incrementPage() {
@@ -57,25 +53,43 @@ class NewApiService {
 
 const newApiService = new NewApiService();
 
-
-
 async function onSearch(e) {
-  clearMarkup()
+  clearMarkup();
   e.preventDefault();
-  newApiService.query = e.currentTarget.elements.searchQuery.value;
- 
+  newApiService.query = e.currentTarget.elements.searchQuery.value.trim();
   if (newApiService.searchQuery === '') {
-    Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+    Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
     return clearMarkup();
   }
-
- await sendRequest()
+ 
+  try {
+    await newApiService.fetchArticles().then(data => {
+      Notify.success(`Hooray! We found ${data.totalHits} images.`);
+      onSuccess(data.hits);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
   newApiService.resetIncrementPage();
 }
 
 async function onLoadMore() {
-  await sendRequest()
+  try {
+    await newApiService.fetchArticles().then(data => {
+      const pages = Math.ceil(data.totalHits / 40);
+      if (pages < newApiService.page) {
+        Notify.warning(
+          "We're sorry, but you've reached the end of search results."
+        );
+      }
+      onSuccess(data.hits);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function onSuccess(images) {
@@ -85,8 +99,6 @@ function onSuccess(images) {
   lightbox.refresh();
 
   loadMoreBtn.classList.remove('is-hidden');
-
-  // Перевірка на кількість зображень
   if (images.length < 40) {
     loadMoreBtn.classList.add('is-hidden');
   }
@@ -128,16 +140,4 @@ function markupImage(images) {
 function clearMarkup() {
   gallery.innerHTML = '';
   loadMoreBtn.classList.add('is-hidden');
-}
-
-async function sendRequest(){
-  try {
-    const fetch = await newApiService.fetchArticles().then(onSuccess);
-  } catch (error) {
-    error = Notify.info(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-
-    return error;
-  }
 }
