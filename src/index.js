@@ -145,7 +145,8 @@ async function onLoadMoreRequest() {
     const fetch = await newApiService.fetchArticles();
     const totalHits = await fetch.totalHits;
     const numberOfPages = Math.ceil(totalHits / 40);
-    if (numberOfPages < newApiService.page) {
+    console.log(numberOfPages)
+    if (numberOfPages === newApiService.page) {
       Notify.warning(
         "We're sorry, but you've reached the end of search results."
       );
